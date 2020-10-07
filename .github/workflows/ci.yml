@@ -23,6 +23,7 @@ jobs:
         with:
           url: 'https://kw4cmrlljk.execute-api.us-east-1.amazonaws.com/webhook?2wisQcC**pirmzo1AXKY/testpath'
           method: post
+          headers: '{"Content-Type": "application/json" }'
           data: '{ "executionArn": "arn:aws:states:us-east-1:040528967665:execution:MyStateMachine:88bccc20-0337-4c0d-a1a2-5b168e9be376" }'
       - run: "echo latest release: ${{ steps.get_status.outputs.response }}"
 
