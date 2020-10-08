@@ -59,4 +59,7 @@ jobs:
           print("::set-output name=status::" + status)
           print("::set-output name=result::" + str(response['output']))
           print("::set-output name=details::" + str(response['outputDetails']))
-      - run: "echo received status: ${{ steps.execute_state_machine.outputs.status }}"
+      - run: |
+          echo "received status: ${{ steps.execute_state_machine.outputs.status }}"
+          echo "received result: ${{ steps.execute_state_machine.outputs.result }}"
+          echo "received result details: ${{ steps.execute_state_machine.outputs.details }}"
