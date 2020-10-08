@@ -19,6 +19,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - id: execute_state_machine
+        shell: python3 {0}
         run: |
           import os
           import requests
