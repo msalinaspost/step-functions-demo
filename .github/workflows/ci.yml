@@ -29,7 +29,7 @@ jobs:
           ping_interval_seconds = 10
 
           def startExecution():
-              payload = { 'commit': 'test', 'branch': '${{ github.base_ref }}' }
+              payload = { 'input': { 'commit': 'test', 'branch': '${{ github.base_ref }}' } }
               r = requests.post('https://kw4cmrlljk.execute-api.us-east-1.amazonaws.com/webhook?2wisQcC**pirmzo1AXKY/testpath', json=payload)
               response = r.json()
               print("response", response)
