@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - run: env
-      - run: echo "${{ toJSON(github) }}"
       - id: execute_state_machine
         shell: python3 {0}
         run: |
