@@ -1,0 +1,71 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build" -
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - id: execute_state_machine
+        shell: python3 {0}
+        run: |
+          import os
+          import requests
+          import time
+
+          timeout_seconds = 60 * 10
+          ping_interval_seconds = 10
+
+          def startExecution():
+              payload = { 
+                'input': { 
+                  'head_ref': '${{ github.head_ref }}',
+                  'base_ref': '${{ github.base_ref }}',
+                  'run_number': '${{ github.run_number }}'
+                } 
+              }
+              r = requests.post('https://kw4cmrlljk.execute-api.us-east-1.amazonaws.com/webhook?2wisQcC**pirmzo1AXKY/testpath', json=payload)
+              response = r.json()
+              print("response", response)
+              return response['executionArn']
+
+          def getExecution(executionArn):
+              payload = { 'executionArn': executionArn }
+              r = requests.post('https://kw4cmrlljk.execute-api.us-east-1.amazonaws.com/webhook?2wisQcC**pirmzo1AXKY/testpath', json=payload)
+              response = r.json()
+              return response
+
+          executionArn = startExecution()
+          print("starting execution", executionArn)
+          print("checking status.", end="", flush=True)
+
+          status = ""
+          wait_seconds = 0
+          response = {}
+          while wait_seconds < timeout_seconds and status != "SUCCEEDED" and status != "FAILED":
+              time.sleep(ping_interval_seconds)
+              wait_seconds = wait_seconds + ping_interval_seconds
+              response = getExecution(executionArn)
+              status = response['status']
+              print('.', end="", flush=True)
+
+          print('\nfinished', response)
+          print("::set-output name=status::" + status)
+          print("::set-output name=result::" + str(response['output']))
+          print("::set-output name=details::" + str(response['outputDetails']))
+      - run: |
+          echo "received status: ${{ steps.execute_state_machine.outputs.status }}"
+          echo "received result: ${{ steps.execute_state_machine.outputs.result }}"
+          echo "received result details: ${{ steps.execute_state_machine.outputs.details }}"
