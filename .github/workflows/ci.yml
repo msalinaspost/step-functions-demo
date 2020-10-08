@@ -33,7 +33,7 @@ jobs:
           def startExecution():
               payload = { 
                 'input': { 
-                  'ref': '${{ github.ref }}',
+                  'head_ref': '${{ github.head_ref }}',
                   'base_ref': '${{ github.base_ref }}',
                   'run_number': '${{ github.run_number }}'
                 } 
