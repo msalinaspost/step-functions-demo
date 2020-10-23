@@ -27,5 +27,5 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - run: env
-      - run: echo "$INPUT_ENVIRONMENT ${{ env.INPUT_ENVIRONMENT }}"
+      - run: echo "$INPUT_ENVIRONMENT ${{ env.INPUT_ENVIRONMENT }} ${{ github.event.inputs }}"
         name: hello
