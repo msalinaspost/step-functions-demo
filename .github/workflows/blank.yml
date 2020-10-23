@@ -28,3 +28,4 @@ jobs:
     steps:
       - run: env
       - run: echo ${{ inputs }}
+        name: hello
